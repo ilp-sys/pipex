@@ -12,11 +12,16 @@ Before a commnad is executed, its input and output may be *redirected* using a s
 
 If the file descriptor is omitted, 
 - `>`
-- `>>`
 - `<`
+
+- `>>`
 - `<<`
 
-## 2. Execution Steps
+## 2. External functs
+
+
+
+## 3. Execution Steps
 ```
 1. Create a pipe.
 2. Create a child process.
