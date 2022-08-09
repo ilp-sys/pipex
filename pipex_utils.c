@@ -1,37 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/09 19:11:26 by jiwahn           ###   ########.fr       */
+/*   Created: 2022/08/09 18:59:26 by jiwahn            #+#    #+#             */
+/*   Updated: 2022/08/09 19:00:40 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <errno.h>
-# include <sys/wait.h>
-
-# include "libft/libft.h"
-
-# define GNL_BUF_SIZE 1024 
-
-typedef struct s_str
+void	sys_err_exit(char *msg)
 {
-	size_t	len;
-	char	*str;
-}t_str;
+    perror(msg);
+    exit(EXIT_FAILURE);
+}
 
-char	*get_next_line(int fd);
-
-void	sys_err_exit(char *msg);
-
-#endif
