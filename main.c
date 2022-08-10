@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 11:43:06 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/11 01:38:54 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/11 05:19:59 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,64 +54,55 @@ char	*get_pathname(char *envp[], char *cmd)
 int main(int argc, char *argv[], char *envp[])
 {
 	// ./piepx infile.txt cmd1 cmd2 ... cmdn outfile
-	fprintf(stderr, "argc %d, starting from 0\n", argc);
 	if (argc > 4)
 	{
-		int i = 0;
-		int fd[2];
-		pipe(fd);
+		int fds[2][2];
 
-		fprintf(stderr, "main process %d\n", getpid());
-
-		while (++i < argc)
+		int i = 1;
+		while (++i < argc - 1)
 		{
+			pipe(fds[i % 2]); //starting from odd number
+
 			pid_t pid = fork();
-			if (pid == (pid_t)0)
+			if (pid == 0)
 			{
-				if (i == 1)
+				if (i == 2)
 				{
-					int tmp = open(argv[i], O_RDONLY);
-					dup2(tmp, STDIN_FILENO);
-					char buffer[100];
-					int ret = read(STDIN_FILENO, buffer, 100);
-					write(STDOUT_FILENO, buffer, ret);
-					dup2(fd[1], STDOUT_FILENO);
-					write(STDOUT_FILENO, buffer, ret);
-					close(tmp);
-					close(fd[0]);
-					close(fd[1]);
-					exit(EXIT_SUCCESS);
+					close(fds[i % 2][0]);
+					int infile = open(argv[1], O_RDONLY);
+					dup2(infile, STDIN_FILENO);
+					dup2(fds[i % 2][1], STDOUT_FILENO);
+					close(infile);
+					close(fds[i % 2][1]);
+					char **parsing = ft_split(argv[i], ' ');
+					execve(get_abs_path(envp, parsing[0]), parsing, envp);
+					exit(1);
 				}
-				else if (i == argc -1)
+				else if (i == argc - 2)
 				{
-					int tmp2 = open(argv[i], O_RDWR | O_CREAT | O_TRUNC);
-					dup2(fd[0], STDIN_FILENO);
-					char buffer1[100];
-					int ret1 = read(STDIN_FILENO, buffer1, 100);
-					write(STDOUT_FILENO, buffer1, ret1);
-					dup2(tmp2, STDOUT_FILENO);
-					int ret2 = write(STDOUT_FILENO, buffer1, ret1);
-					fprintf(stderr, "%d bytes were written to ouftile.txt\n", ret2);
-					close(tmp2);
-					close(fd[0]);
-					close(fd[1]);
-					exit(EXIT_SUCCESS);
+					close();
+					close();
 				}
 				else
 				{
-					dup2(fd[0], STDIN_FILENO);
-					dup2(fd[1], STDOUT_FILENO);
-					close(fd[0]);
-					close(fd[1]);
+					close(fd[i % 2][0]);
+					close(fd[!(i % 2)][1]);
+					dup2(fd[i % 2][1], STDOUT_FILENO);
+					dup2(fd[!(i % 2)][0], STDIN_FILENO);
+					close(fd[i % 2][1]);
+					close(fd[!(i % 2)][0]);
 					char **parsing = ft_split(argv[i], ' ');
-					execve(get_pathname(envp, parsing[0]), parsing, envp);
-					exit(EXIT_FAILURE);
+					execve(get_abs_path(envp, parsing[0]), parsing, envp);
+					exit(1);
 				}
 			}
-			fprintf(stderr, "process %d generated, i was %d\n", pid, i);
+			//TODO
+			//close fds if available
 		}
-		close(fd[0]);
-		close(fd[1]);
+		close(fd[0][0]);
+		close(fd[0][1]);
+		close(fd[1][0]);
+		close(fd[1][1]);
 	}
 	return (0);
 }
