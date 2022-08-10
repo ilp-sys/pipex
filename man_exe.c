@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:40:55 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/09 14:40:40 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/10 20:05:56 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -77,8 +77,6 @@ char	*get_pathname(char *argp[], char *cmd)
 int	main(int argc, char *argv[], char *argp[])
 {
 	int		fd[2];
-	pid_t	pid;
-	pid_t	pid2;
 
 	if (argc == 5)
 	{
@@ -88,30 +86,24 @@ int	main(int argc, char *argv[], char *argp[])
 			exit(0);
 		}
 
-		pid = fork();
+		pid_t pid = fork();
 		if (pid == (pid_t)0)
 		{
 			int tmp_fd = open(argv[1], O_RDONLY);
 			dup2(tmp_fd, STDIN_FILENO);
-//			char *buffer = (char *)malloc(sizeof(char) * 100);
-//			int ret = read(0, buffer, 100);
-//			write(1, buffer, ret);
 			dup2(fd[1], STDOUT_FILENO);
 			close(tmp_fd);
 			close(fd[0]);
 			close(fd[1]);
 			char	**parsing = ft_split(argv[2], ' ');
 			execve(get_pathname(argp, parsing[0]), get_args(parsing), argp);
-			exit(0);
+			exit(EXIT_FAILURE);
 		}
 
-		pid2 = fork();
+		pid_t pid2 = fork();
 		if (pid2 == (pid_t)0)
 		{
 			dup2(fd[0], STDIN_FILENO);
-//			char *buffer = (char *)malloc(sizeof(char) * 100);
-//			int ret = read(0, buffer, 100);
-//			write(1, buffer, ret);
 			int tmp_fd2 = open(argv[4], O_RDWR | O_CREAT | O_TRUNC);
 			dup2(tmp_fd2, STDOUT_FILENO);
 			close(tmp_fd2);
@@ -119,7 +111,7 @@ int	main(int argc, char *argv[], char *argp[])
 			close(fd[0]);
 			char	**parsing2 = ft_split(argv[3], ' ');
 			execve(get_pathname(argp, parsing2[0]), get_args(parsing2), argp);
-			exit(0);
+			exit(EXIT_FAILURE);
 		}
 
 		close(fd[0]);
