@@ -6,17 +6,17 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 11:43:06 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/11 13:35:36 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/11 15:18:27 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	check_here_doc(char *argv[])
+int	check_here_doc(int argc, char *argv[])
 {
-	if (ft_strcmp(argv[1], "here_doc") == 0)
-		return (1);
-	return (0);
+	if (argc < 2 || ft_strcmp(argv[1], "here_doc") != 0)
+		return (0);
+	return (1);
 }
 
 void	proc_get_infile(int i, int fds[2][2], char *argv[], char *envp[])
@@ -54,26 +54,30 @@ void	proc_piping(int i, int fds[2][2], char *argv, char *envp[])
 	execute_cmd(argv[i], envp);
 }
 
+void	processing()
+{
+
+}
+
 
 // ./pipex infile.txt cmd1 cmd2 ... cmdn outfile
 // ./pipex here_doc LIMITER cmd1 cmd2 ... cmdn outfile
 int main(int argc, char *argv[], char *envp[])
 {
+	int			fds[2][2];
+	int			i;
+	pid_t		pid;
+	const int	here_doc = check_here_doc(argc, argv);
+
 	if (argc < 5)
 		return ;
-
-	int fds[2][2];
-
-	int i = 1;
-	const int	here_doc = check_here_doc(argv);
-
+	i = 1;
 	if (here_doc)
 		i += 1;
 	while (++i < argc - 1)
 	{
 		pipe(fds[i % 2]); 
-
-		pid_t pid = fork();
+		pid = fork();
 		if (pid == 0)
 		{
 			if (here_doc || i == 2)
@@ -83,7 +87,6 @@ int main(int argc, char *argv[], char *envp[])
 			else
 				proc_make_outfile(i, fds, argv, envp);
 		}
-		fprintf(stderr, "pid %d was generated\n", pid);
 		if (i != 2 && i != (argc - 2))
 		{
 			close(fds[!(i % 2)][0]);

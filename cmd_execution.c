@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_path_name.c                                    :+:      :+:    :+:   */
+/*   cmd_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 12:21:53 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/11 13:45:30 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/11 14:50:42 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char    *get_pathname(char *envp[], char *cmd)
     }
     if (*path == NULL)
         err_found_exit("Command not found");
-    fprintf(stderr, "%s\n", full_cmd);
+    fprintf(stderr, "%s\n", full_cmd); //TODO - del here
     return (full_cmd);
 }
 
