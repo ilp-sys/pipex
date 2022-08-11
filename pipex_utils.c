@@ -6,21 +6,19 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 18:59:26 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/11 00:44:13 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/11 14:12:01 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	sys_err_exit(char *msg)
+void	err_found_exit(char *msg)
 {
     perror(msg);
     exit(EXIT_FAILURE);
 }
 
-void	close_utils(int fd[2])
+void	sys_err_exit(int (*func)())
 {
-	close(fd[0]);
-	close(fd[1]);
-}
 
+}

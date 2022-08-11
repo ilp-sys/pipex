@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/09 19:11:26 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/11 13:41:48 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,17 @@ typedef struct s_str
 	char	*str;
 }t_str;
 
+//get_next_line.c
 char	*get_next_line(int fd);
 
+//pipe_utils.c
 void	sys_err_exit(char *msg);
+void	execute_cmd(char *argv, char **envp);
+
+//main.c
+
+//cmd_execution.c
+char	*get_pathname(char *envp[], char *cmd);
+char	*get_abs_path(char *envp, char *cmd);
 
 #endif

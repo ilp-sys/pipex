@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 12:27:45 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/09 19:01:41 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/11 13:48:09 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static size_t	re_read(int fd, t_str *buffer)
 
 	tmp_read = (char *)malloc(sizeof(char) * GNL_BUF_SIZE);
 	if (!tmp_read)
-		sys_err_exit("Heap memory allocation failed!");
+		err_found_exit("Heap memory allocation failed!");
 	ret = read(fd, tmp_read, GNL_BUF_SIZE);
 	if (ret < 0)
-		sys_err_exit("System call read failed!");
+		err_found_exit("System call read failed!");
 	replace = (char *)malloc(buffer->len + ret);
 	if (!replace)
-		sys_err_exit("Heap memory allocation failed!");
+		err_found_exit("Heap memory allocation failed!");
 	ft_strncpy(replace, buffer->str, buffer->len);
 	ft_strncat(replace, tmp_read, ret);
 	tmp_free = buffer->str;
@@ -51,7 +51,7 @@ static char	*make_ret_str(t_str *buffer, size_t ret, char *new_line_pos)
 		ret_len = new_line_pos + 1 - buffer->str;
 	ret_str = (char *)malloc(sizeof(char) * ret_len + 1);
 	if (!ret_str)
-		sys_err_exit("Heap memory allocation failed!");
+		err_found_exit("Heap memory allocation failed!");
 	ft_strncpy(ret_str, buffer->str, ret_len);
 	ret_str[ret_len] = '\0';
 	buffer->len -= ret_len;
@@ -61,7 +61,7 @@ static char	*make_ret_str(t_str *buffer, size_t ret, char *new_line_pos)
 	{
 		replace = (char *)malloc(sizeof(char) * buffer->len);
 		if (!replace)
-			sys_err_exit("Heap memory allocation failed!")
+			err_found_exit("Heap memory allocation failed!")
 		ft_strncat(replace, new_line_pos + 1, buffer->len);
 	}
 	tmp = buffer->str;
@@ -80,7 +80,7 @@ char	*get_next_line(int fd)
 	{
 		buffer.str = (char *)malloc(sizeof(char) * GNL_BUF_SIZE);
 		if (!buffer.str)
-			sys_err_exit("Heap memory allocation failed!");
+			err_found_exit("Heap memory allocation failed!");
 	}
 	while (1)
 	{
@@ -88,8 +88,8 @@ char	*get_next_line(int fd)
 		if (new_line_pos != NULL)
 			break ;
 		ret = re_read(int fd, &buffer);
-		if (ret < 0)
-			sys_err_exit("System call read failed!");
+		if (ret < 0) //TODO - redundancy here
+			err_found_exit("System call read failed!");
 		if (ret == 0)
 			break ;
 	}
