@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 18:59:26 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/12 18:32:16 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/12 19:20:55 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,15 @@ void	close_a_pipe(int fd[2])
 {
 	close(fd[0]);
 	close(fd[1]);
+}
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+	split = NULL;
 }

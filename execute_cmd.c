@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 18:23:42 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/12 18:38:53 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/12 19:22:23 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,18 @@ char	*get_pathname(char *envp[], char *cmd)
 		i++;
 	if (envp[i] == NULL)
 		err_found_exit("PATH not exist");
-	path = ft_split(envp[i] + 5, ':');
-	while (*path)
+	path = ft_split(envp[i] + 5,  ':');
+	i = 0;
+	while (path[i])
 	{
-		full_cmd = get_abs_path(*path, cmd);
+		full_cmd = get_abs_path(path[i], cmd);
 		if (access(full_cmd, X_OK) == 0)
 			break ;
-		(*path)++;
+		i++;
 	}
-	if (*path == NULL)
+	if (path[i] == NULL)
 		err_found_exit("Command not found");
+	free_split(path);
 	return (full_cmd);
 }
 
@@ -57,6 +59,5 @@ void	execute_cmd(char *argv, char **envp)
 
 	parsing = ft_split(argv, ' ');
 	execve(get_pathname(envp, parsing[0]), parsing, envp);
-	//TODO - freeing parsed cmd iteratively
 	exit(1);
 }

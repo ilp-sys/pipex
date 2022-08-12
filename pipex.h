@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/12 18:56:41 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/12 19:21:42 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_args
 t_args	set_args(int argc, char *argv[], char *envp[]);
 void	err_found_exit(char *msg);
 void	close_a_pipe(int fd[2]);
+void	free_split(char **split);
 
 //execute_cmd.c
 void	execute_cmd(char *argc, char **envp);
