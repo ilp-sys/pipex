@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/12 18:38:14 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/12 18:56:41 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ int		main(int argc, char *argv[], char *envp[]);
 void	processing(int i, t_args args);
 void	proc_get_infile(int i, int fds[2][2], char *argv[], char *envp[]);
 void	proc_make_outfile(int i, int fds[2][2], char *argv[], char *envp[]);
-void	proc_piping(int i, int fds[2][2], char *argv, char *envp[]);
+void	proc_piping(int i, int fds[2][2], char *argv[i], char *envp[]);
 
 #endif
