@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/11 15:02:08 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/12 18:38:14 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,17 @@
 
 # define GNL_BUF_SIZE 1024 
 
-typedef struct	s_str
+typedef struct s_args
 {
-	size_t	len;
-	char	*str;
-}				t_str;
-
-//get_next_line.c
-char	*get_next_line(int fd);
+	int		argc;
+	char	**argv;
+	char	**envp;
+}t_args;
 
 //pipe_utils.c
-void	sys_err_exit(char *msg);
-
-//here_document.c
+t_args	set_args(int argc, char *argv[], char *envp[]);
+void	err_found_exit(char *msg);
+void	close_a_pipe(int fd[2]);
 
 //execute_cmd.c
 void	execute_cmd(char *argc, char **envp);
@@ -45,7 +43,7 @@ char	*get_abs_path(char *envp, char *cmd);
 
 //main.c
 int		main(int argc, char *argv[], char *envp[]);
-void	processing();
+void	processing(int i, t_args args);
 void	proc_get_infile(int i, int fds[2][2], char *argv[], char *envp[]);
 void	proc_make_outfile(int i, int fds[2][2], char *argv[], char *envp[]);
 void	proc_piping(int i, int fds[2][2], char *argv, char *envp[]);

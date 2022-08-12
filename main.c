@@ -6,23 +6,18 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 11:43:06 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/11 15:18:27 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/12 18:37:28 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	check_here_doc(int argc, char *argv[])
-{
-	if (argc < 2 || ft_strcmp(argv[1], "here_doc") != 0)
-		return (0);
-	return (1);
-}
-
 void	proc_get_infile(int i, int fds[2][2], char *argv[], char *envp[])
 {
+	int	infile;
+
 	close(fds[i % 2][0]);
-	int infile = open(argv[1], O_RDONLY);
+	infile = open(argv[1], O_RDONLY);
 	dup2(infile, STDIN_FILENO);
 	dup2(fds[i % 2][1], STDOUT_FILENO);
 	close(infile);
@@ -43,59 +38,52 @@ void	proc_make_outfile(int i, int fds[2][2], char *argv[], char *envp[])
 
 void	proc_piping(int i, int fds[2][2], char *argv, char *envp[])
 {
+	int	outfile;
+
 	close(fds[i % 2][0]);
 	close(fds[i % 2][1]);
 	close(fds[!(i % 2)][1]);
 	dup2(fds[!(i % 2)][0], STDIN_FILENO);
-	int outfile = open(argv[i + 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
-	dup2(outfile , STDOUT_FILENO);
+	outfile = open(argv, O_RDWR | O_CREAT | O_TRUNC, 0777);
+	dup2(outfile, STDOUT_FILENO);
 	close(fds[!(i % 2)][0]);
 	close(outfile);
-	execute_cmd(argv[i], envp);
+	execute_cmd(argv, envp);
 }
 
-void	processing()
+void	processing(int i, t_args args)
 {
+	pid_t	pid;
+	int		fds[2][2];
 
-}
-
-
-// ./pipex infile.txt cmd1 cmd2 ... cmdn outfile
-// ./pipex here_doc LIMITER cmd1 cmd2 ... cmdn outfile
-int main(int argc, char *argv[], char *envp[])
-{
-	int			fds[2][2];
-	int			i;
-	pid_t		pid;
-	const int	here_doc = check_here_doc(argc, argv);
-
-	if (argc < 5)
-		return ;
-	i = 1;
-	if (here_doc)
-		i += 1;
-	while (++i < argc - 1)
+	while (++i < args.argc - 1)
 	{
-		pipe(fds[i % 2]); 
+		pipe(fds[i % 2]);
 		pid = fork();
 		if (pid == 0)
 		{
-			if (here_doc || i == 2)
-				proc_get_infile(i, fds, argv, envp);
-			else if (i == argc - 2)
-				proc_piping(i, fds, argv[i], envp);
+			if (i == 2)
+				proc_get_infile(i, fds, args.argv, args.envp);
+			else if (i == args.argc - 2)
+				proc_piping(i, fds, args.argv[i], args.envp);
 			else
-				proc_make_outfile(i, fds, argv, envp);
+				proc_make_outfile(i, fds, args.argv, args.envp);
 		}
-		if (i != 2 && i != (argc - 2))
-		{
-			close(fds[!(i % 2)][0]);
-			close(fds[!(i % 2)][1]);
-		}
+		if (i != 2 && i != (args.argc - 2))
+			close_a_pipe(fds[!(i % 2)]);
 	}
-	close(fds[0][0]);
-	close(fds[0][1]);
-	close(fds[1][0]);
-	close(fds[1][1]);
+	close_a_pipe(fds[0]);
+	close_a_pipe(fds[1]);
+}
+
+int	main(int argc, char *argv[], char *envp[])
+{
+	int				i;
+	const t_args	args = set_args(argc, argv, envp);
+
+	if (argc < 5)
+		return (0);
+	i = 1;
+	processing(i, args);
 	return (0);
 }
