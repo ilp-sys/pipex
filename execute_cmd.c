@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 18:23:42 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/12 19:22:23 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/12 19:53:43 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_pathname(char *envp[], char *cmd)
 		i++;
 	if (envp[i] == NULL)
 		err_found_exit("PATH not exist");
-	path = ft_split(envp[i] + 5,  ':');
+	path = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (path[i])
 	{
