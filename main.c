@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 11:43:06 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/12 18:57:48 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/12 19:44:37 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	proc_get_infile(int i, int fds[2][2], char *argv[], char *envp[])
 
 	close(fds[i % 2][0]);
 	infile = open(argv[1], O_RDONLY);
+	if (infile < 0)
+		err_found_exit("file open failed");
 	dup2(infile, STDIN_FILENO);
 	dup2(fds[i % 2][1], STDOUT_FILENO);
 	close(infile);
@@ -34,6 +36,8 @@ void	proc_make_outfile(int i, int fds[2][2], char *argv[], char *envp[])
 	close(fds[!(i % 2)][1]);
 	dup2(fds[!(i % 2)][0], STDIN_FILENO);
 	outfile = open(argv[i + 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
+	if (outfile < 0)
+		err_found_exit("file open failed");
 	dup2(outfile, STDOUT_FILENO);
 	close(fds[!(i % 2)][0]);
 	close(outfile);
