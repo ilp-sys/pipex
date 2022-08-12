@@ -6,7 +6,7 @@
 #    By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/12 19:41:15 by jiwahn            #+#    #+#              #
-#    Updated: 2022/08/12 19:41:16 by jiwahn           ###   ########.fr        #
+#    Updated: 2022/08/12 20:04:50 by jiwahn           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ clean :
 	@$(RM) $(RMFLAGS) $(OBJS)
 
 fclean : clean
+	$(MAKE) -C $(LIBFT_DIR) fclean
 	@$(RM) $(RMFLAGS) $(NAME)
 
 re: fclean all

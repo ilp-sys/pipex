@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 11:43:06 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/12 19:46:55 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/12 20:05:45 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	main(int argc, char *argv[], char *envp[])
 	const t_args	args = set_args(argc, argv, envp);
 
 	if (argc < 5)
-		return (0);
+		err_found_exit("argument count not enough");
 	i = 1;
 	processing(i, args);
 	return (0);
