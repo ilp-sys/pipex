@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/13 14:37:20 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/13 17:26:43 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "libft/libft.h"
 
 # define TMP_FILE_NAME "pipex_heredoc_tmp"
+# define BUFFER_SIZE 1024
 
 typedef struct	s_str
 {
@@ -42,6 +43,7 @@ t_args	set_args(int argc, char *argv[], char *envp[]);
 void	err_found_exit(char *msg);
 void	close_a_pipe(int fd[2]);
 void	free_split(char **split);
+void	dup2_try_catch(int fildes, int fildes2);
 
 //execute_cmd.c
 void	execute_cmd(char *argc, char **envp);
@@ -50,7 +52,7 @@ char	*get_abs_path(char *envp, char *cmd);
 
 //main.c
 int		main(int argc, char *argv[], char *envp[]);
-void	processing(int i, t_args args);
+void	processing(int i, int here_doc, t_args args);
 void	proc_get_infile(int i, int fds[2][2], char *argv[], char *envp[]);
 void	proc_make_outfile(int i, int fds[2][2], char *argv[], char *envp[]);
 void	proc_piping(int i, int fds[2][2], char *argv[i], char *envp[]);

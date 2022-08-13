@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 18:59:26 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/13 14:25:56 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/13 17:32:43 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	free_split(char **split)
 
 void	dup2_try_catch(int fildes, int fildes2)
 {
-	if (dup2(fildes, fildes) == -1)
+	if (dup2(fildes, fildes2) == -1)
 		err_found_exit("dup2 failed");
 }
-

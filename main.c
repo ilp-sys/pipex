@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 11:43:06 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/13 14:26:26 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/13 21:20:48 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 void	proc_get_infile(int i, int fds[2][2], char *argv[], char *envp[])
 {
-	int	infile;
+	int		infile;
+	char	*tmp_file;
 
 	if (i > 2)
-		infile = open(get_stdin_heredoc(argv, envp), O_RDONLY);
+	{
+		tmp_file = get_stdin_heredoc(argv, envp);
+		infile = open(tmp_file, O_RDONLY);
+		unlink(tmp_file);
+		free(tmp_file);
+	}
 	else
 		infile = open(argv[1], O_RDONLY);
 	close(fds[i % 2][0]);
@@ -70,17 +76,18 @@ void	processing(int i, int here_doc, t_args args)
 		pid = fork();
 		if (pid == 0)
 		{
-			if (i == 2 || here_doc)
+			if (i == (2 + (here_doc == 1)))
 				proc_get_infile(i, fds, args.argv, args.envp);
 			else if (i == args.argc - 2)
 				proc_make_outfile(i, fds, args.argv, args.envp);
 			else
 				proc_piping(i, fds, args.argv, args.envp);
 		}
-		if (i != 2 && i != (args.argc - 2)) //TODO - heredoc 
+		if (i != 2 && i != (args.argc - 2 && !here_doc))
 			close_a_pipe(fds[!(i % 2)]);
 	}
-	while (waitpid(-1, NULL, 0) != -1) ;
+	while (waitpid(-1, NULL, 0) != -1)
+		;
 	close_a_pipe(fds[0]);
 	close_a_pipe(fds[1]);
 }
@@ -95,6 +102,6 @@ int	main(int argc, char *argv[], char *envp[])
 		err_found_exit("argument count not enough");
 	i = 1;
 	here_doc_check(&i, &here_doc, args);
-	processing(i, args);
+	processing(i, here_doc, args);
 	return (0);
 }

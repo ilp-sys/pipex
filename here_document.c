@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 13:21:19 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/13 14:09:52 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/13 23:10:52 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 void	here_doc_check(int *i, int *here_doc, t_args args)
 {
-	if (ft_strcmp(argv[1], "here_doc"))
+	if (ft_strcmp(args.argv[1], "here_doc") == 0)
 	{
-		*i++;
+		(*i)++;
 		*here_doc = 1;
 	}
 	else
 		*here_doc = 0;
 }
 
-void	stdin_get_next_line(int fd, char *LIMITER)
+void	stdin_get_next_line(int fd, char *limiter)
 {
+	int		ret;
 	char	*line;
 
 	while (1)
@@ -32,12 +33,15 @@ void	stdin_get_next_line(int fd, char *LIMITER)
 		line = get_next_line(STDIN_FILENO);
 		if (line == NULL)
 			break ;
-		if (ft_strcmp(line, LIMITER))
+		if (!ft_strncmp(line, limiter, ft_strlen(limiter)) && \
+				ft_strlen(limiter) == ft_strlen(line) - 1)
 		{
 			free(line);
 			break ;
 		}
-		write(fd, line, ft_strlen(line)); //TODO - null char? 
+		ret = write(fd, line, ft_strlen(line));
+		if (ret < 0)
+			err_found_exit("write failed");
 		free(line);
 	}
 }
@@ -48,7 +52,7 @@ char	*get_stdin_heredoc(char *argv[], char *envp[])
 	char	*abs_path;
 
 	while (*envp)
-		if (ft_strncmp((*envp)++, "TMPDIR=", 7) == 0)
+		if (ft_strncmp(*(envp++), "TMPDIR=", 7) == 0)
 			break ;
 	if (*envp == NULL)
 		err_found_exit("Can not find tmp file dir");
@@ -57,9 +61,8 @@ char	*get_stdin_heredoc(char *argv[], char *envp[])
 		err_found_exit("heredoc - strjoin failed");
 	if (access(abs_path, F_OK) != -1)
 		err_found_exit("tmp file creation failed");
-	infile_fd = open(abs_path, O_WRONLY);
+	infile_fd = open(abs_path, O_WRONLY | O_CREAT, 0644);
 	stdin_get_next_line(infile_fd, argv[2]);
 	close(infile_fd);
-	free(abs_path);
-	return (TMP_FILE_NAME);
+	return (abs_path);
 }
