@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/12 19:21:42 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/13 14:37:20 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,13 @@
 
 # include "libft/libft.h"
 
-# define GNL_BUF_SIZE 1024 
+# define TMP_FILE_NAME "pipex_heredoc_tmp"
+
+typedef struct	s_str
+{
+	int		len;
+	char	*str;
+}t_str;
 
 typedef struct s_args
 {
@@ -48,5 +54,13 @@ void	processing(int i, t_args args);
 void	proc_get_infile(int i, int fds[2][2], char *argv[], char *envp[]);
 void	proc_make_outfile(int i, int fds[2][2], char *argv[], char *envp[]);
 void	proc_piping(int i, int fds[2][2], char *argv[i], char *envp[]);
+
+//here_document.c
+void	here_doc_check(int *i, int *here_doc, t_args args);
+void	stdin_get_next_line(int fd, char *LIMITER);
+char	*get_stdin_heredoc(char *argv[], char *envp[]);
+
+//get_next_line.c
+char	*get_next_line(int fd);
 
 #endif

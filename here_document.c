@@ -1,0 +1,65 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_document.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/13 13:21:19 by jiwahn            #+#    #+#             */
+/*   Updated: 2022/08/13 14:09:52 by jiwahn           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "pipex.h"
+
+void	here_doc_check(int *i, int *here_doc, t_args args)
+{
+	if (ft_strcmp(argv[1], "here_doc"))
+	{
+		*i++;
+		*here_doc = 1;
+	}
+	else
+		*here_doc = 0;
+}
+
+void	stdin_get_next_line(int fd, char *LIMITER)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = get_next_line(STDIN_FILENO);
+		if (line == NULL)
+			break ;
+		if (ft_strcmp(line, LIMITER))
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line)); //TODO - null char? 
+		free(line);
+	}
+}
+
+char	*get_stdin_heredoc(char *argv[], char *envp[])
+{
+	int		infile_fd;
+	char	*abs_path;
+
+	while (*envp)
+		if (ft_strncmp((*envp)++, "TMPDIR=", 7) == 0)
+			break ;
+	if (*envp == NULL)
+		err_found_exit("Can not find tmp file dir");
+	abs_path = ft_strjoin(*envp + 7, TMP_FILE_NAME);
+	if (abs_path == NULL)
+		err_found_exit("heredoc - strjoin failed");
+	if (access(abs_path, F_OK) != -1)
+		err_found_exit("tmp file creation failed");
+	infile_fd = open(abs_path, O_WRONLY);
+	stdin_get_next_line(infile_fd, argv[2]);
+	close(infile_fd);
+	free(abs_path);
+	return (TMP_FILE_NAME);
+}

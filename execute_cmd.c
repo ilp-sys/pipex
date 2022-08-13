@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 18:23:42 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/12 19:53:43 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/13 12:39:30 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ void	execute_cmd(char *argv, char **envp)
 
 	parsing = ft_split(argv, ' ');
 	execve(get_pathname(envp, parsing[0]), parsing, envp);
-	exit(1);
+	err_found_exit("Cmd execution failed!");
 }

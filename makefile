@@ -6,7 +6,7 @@
 #    By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/12 19:41:15 by jiwahn            #+#    #+#              #
-#    Updated: 2022/08/12 20:04:50 by jiwahn           ###   ########.fr        #
+#    Updated: 2022/08/13 14:33:38 by jiwahn           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,10 @@ RMFLAGS = -rf
 LIBFT_DIR = libft/
 LIBFT_LIB = libft.a
 
-SRCS = main.c pipex_utils.c execute_cmd.c
+SRCS = main.c pipex_utils.c execute_cmd.c \
+	   get_next_line.c here_document.c
+
+OBJ_DIR = obj/
 OBJS = $(SRCS:.c=.o)
 
 all : $(NAME)
