@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/13 17:26:43 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/14 15:06:00 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define TMP_FILE_NAME "pipex_heredoc_tmp"
 # define BUFFER_SIZE 1024
 
-typedef struct	s_str
+typedef struct s_str
 {
 	int		len;
 	char	*str;
