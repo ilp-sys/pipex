@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/15 19:04:45 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/15 19:08:50 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	processing(int here_doc, int i, t_args args);
 void	proc_get_infile(int here_doc, int i, int fds[2][2], t_args args);
 void	proc_make_outfile(int here_doc, int i, int fds[2][2], t_args args);
 void	proc_piping(int i, int fds[2][2], t_args args);
-
 
 //here_document.c
 void	here_doc_check(int *i, int *here_doc, t_args args);

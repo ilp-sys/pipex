@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 11:43:06 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/15 19:04:25 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/15 19:08:35 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	proc_make_outfile(int here_doc, int i, int fds[2][2], t_args args)
 	execute_cmd(args.argv[i], args.envp);
 }
 
-void	proc_piping(int here_doc, int i, int fds[2][2], t_args args)
+void	proc_piping(int i, int fds[2][2], t_args args)
 {
 	close(fds[i % 2][0]);
 	close(fds[!(i % 2)][1]);
