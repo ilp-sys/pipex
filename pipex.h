@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/14 15:06:00 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/15 19:04:45 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ char	*get_abs_path(char *envp, char *cmd);
 
 //main.c
 int		main(int argc, char *argv[], char *envp[]);
-void	processing(int i, int here_doc, t_args args);
-void	proc_get_infile(int i, int fds[2][2], char *argv[], char *envp[]);
-void	proc_make_outfile(int i, int fds[2][2], char *argv[], char *envp[]);
-void	proc_piping(int i, int fds[2][2], char *argv[i], char *envp[]);
+void	processing(int here_doc, int i, t_args args);
+void	proc_get_infile(int here_doc, int i, int fds[2][2], t_args args);
+void	proc_make_outfile(int here_doc, int i, int fds[2][2], t_args args);
+void	proc_piping(int i, int fds[2][2], t_args args);
+
 
 //here_document.c
 void	here_doc_check(int *i, int *here_doc, t_args args);
