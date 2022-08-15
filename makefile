@@ -6,14 +6,14 @@
 #    By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/12 19:41:15 by jiwahn            #+#    #+#              #
-#    Updated: 2022/08/13 17:39:29 by jiwahn           ###   ########.fr        #
+#    Updated: 2022/08/15 21:06:39 by jiwahn           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
 CC = cc
-CFLAGS = -g -O0 -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 RM = rm
 RMFLAGS = -rf
@@ -42,7 +42,7 @@ bonus : all
 
 $(NAME) : $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR) all
-	@$(CC) $(OBJS) $(LIBFT_DIR)$(LIBFT_LIB) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)$(LIBFT_LIB) -o $@
 
 $(OBJS) : $(SRCS)
 	@$(CC) $(CFLAGS) $^ -c
