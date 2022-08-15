@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 11:43:06 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/15 19:08:35 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/15 20:45:11 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	proc_make_outfile(int here_doc, int i, int fds[2][2], t_args args)
 	close(fds[!(i % 2)][1]);
 	dup2_try_catch(fds[!(i % 2)][0], STDIN_FILENO);
 	if (here_doc)
-		outfile = open(args.argv[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0777);
+		outfile = open(args.argv[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
-		outfile = open(args.argv[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		outfile = open(args.argv[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile < 0)
 		err_found_exit("file open failed");
 	dup2_try_catch(outfile, STDOUT_FILENO);
@@ -105,6 +105,6 @@ int	main(int argc, char *argv[], char *envp[])
 		err_found_exit("argument count not enough");
 	i = 1;
 	here_doc_check(&i, &here_doc, args);
-	processing(i, here_doc, args);
+	processing(here_doc, i, args);
 	return (0);
 }
