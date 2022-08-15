@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 17:12:38 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/13 23:08:55 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/15 20:59:51 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*get_next_line(int fd)
 	static t_str	str;
 
 	if (fd < 0)
-		err_found_exit("Invalid fd");
+		err_found_exit();
 	while (1)
 	{
 		found = ft_memchr(str.str, '\n', str.len);
@@ -101,7 +101,7 @@ char	*get_next_line(int fd)
 		if (ret == 0)
 			break ;
 		if (ret < 0)
-			err_found_exit("read failed");
+			err_found_exit();
 	}
 	return (get_ret_str(found, &str));
 }

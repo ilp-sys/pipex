@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 11:43:06 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/15 20:45:11 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/15 21:01:06 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	proc_get_infile(int here_doc, int i, int fds[2][2], t_args args)
 		infile = open(args.argv[1], O_RDONLY);
 	close(fds[i % 2][0]);
 	if (infile < 0)
-		err_found_exit("file open failed");
+		err_found_exit();
 	dup2_try_catch(infile, STDIN_FILENO);
 	dup2_try_catch(fds[i % 2][1], STDOUT_FILENO);
 	close(infile);
@@ -49,7 +49,7 @@ void	proc_make_outfile(int here_doc, int i, int fds[2][2], t_args args)
 	else
 		outfile = open(args.argv[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile < 0)
-		err_found_exit("file open failed");
+		err_found_exit();
 	dup2_try_catch(outfile, STDOUT_FILENO);
 	close(fds[!(i % 2)][0]);
 	close(outfile);
@@ -75,7 +75,7 @@ void	processing(int here_doc, int i, t_args args)
 	while (++i < args.argc - 1)
 	{
 		if (pipe(fds[i % 2]) == -1)
-			err_found_exit("pipe failed");
+			err_found_exit();
 		pid = fork();
 		if (pid == 0)
 		{
@@ -102,7 +102,7 @@ int	main(int argc, char *argv[], char *envp[])
 	const t_args	args = set_args(argc, argv, envp);
 
 	if (argc < 5)
-		err_found_exit("argument count not enough");
+		err_found_exit();
 	i = 1;
 	here_doc_check(&i, &here_doc, args);
 	processing(here_doc, i, args);

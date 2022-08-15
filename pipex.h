@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:41:36 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/15 19:08:50 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/15 21:02:20 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <errno.h>
+# include <string.h>
 # include <sys/wait.h>
 
 # include "libft/libft.h"
@@ -40,7 +41,7 @@ typedef struct s_args
 
 //pipe_utils.c
 t_args	set_args(int argc, char *argv[], char *envp[]);
-void	err_found_exit(char *msg);
+void	err_found_exit(void);
 void	close_a_pipe(int fd[2]);
 void	free_split(char **split);
 void	dup2_try_catch(int fildes, int fildes2);

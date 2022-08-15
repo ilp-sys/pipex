@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 18:59:26 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/15 20:21:04 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/15 21:02:37 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ t_args	set_args(int argc, char *argv[], char *envp[])
 	return (args);
 }
 
-void	err_found_exit(char *msg)
+void	err_found_exit(void)
 {
-	perror(msg);
+	perror(strerror(errno));
 	exit(EXIT_FAILURE);
 }
 
@@ -48,5 +48,5 @@ void	free_split(char **split)
 void	dup2_try_catch(int fildes, int fildes2)
 {
 	if (dup2(fildes, fildes2) == -1)
-		err_found_exit("dup2 failed");
+		err_found_exit();
 }
