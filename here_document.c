@@ -6,7 +6,7 @@
 /*   By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 13:21:19 by jiwahn            #+#    #+#             */
-/*   Updated: 2022/08/15 21:00:28 by jiwahn           ###   ########.fr       */
+/*   Updated: 2022/08/16 13:06:13 by jiwahn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char	*get_stdin_heredoc(char *argv[], char *envp[])
 	if (access(abs_path, F_OK) != -1)
 		err_found_exit();
 	infile_fd = open(abs_path, O_WRONLY | O_CREAT, 0644);
+	if (infile_fd < 0)
+		err_found_exit();
 	stdin_get_next_line(infile_fd, argv[2]);
 	close(infile_fd);
 	return (abs_path);
