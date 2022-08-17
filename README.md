@@ -10,12 +10,12 @@ The communication is achieved by one process writing into the pipe and other rea
 ## 1. Redirections
 Before a commnad is executed, its input and output may be *redirected* using a special notation interpreted by the shell. Redirection allows command's file handles to be duplicated, opened, closed, made to refer to different files, and can change the files the command reads from and writes to.
 
-If the file descriptor is omitted, 
-- `>`
-- `<`
-
-- `>>`
-- `<<`
+|symbol|meaning|
+|:---:|:---:|
+|<||
+|<<||
+|>||
+|>>||
 
 ## 2. External functs
 
