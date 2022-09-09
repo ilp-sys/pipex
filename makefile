@@ -6,14 +6,14 @@
 #    By: jiwahn <jiwahn@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/12 19:41:15 by jiwahn            #+#    #+#              #
-#    Updated: 2022/08/15 21:06:39 by jiwahn           ###   ########.fr        #
+#    Updated: 2022/09/09 14:02:11 by jiwahn           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 RM = rm
 RMFLAGS = -rf
