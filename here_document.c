@@ -55,7 +55,7 @@ char	*get_stdin_heredoc(char *argv[], char *envp[])
 	{
 		if (ft_strncmp(*envp, "TMPDIR=", 7) == 0)
 			break ;
-		envp++
+		envp++;
 	}
 	if (*envp == NULL)
 		err_found_exit();
