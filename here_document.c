@@ -52,8 +52,11 @@ char	*get_stdin_heredoc(char *argv[], char *envp[])
 	char	*abs_path;
 
 	while (*envp)
-		if (ft_strncmp(*(envp++), "TMPDIR=", 7) == 0)
+	{
+		if (ft_strncmp(*envp, "TMPDIR=", 7) == 0)
 			break ;
+		envp++
+	}
 	if (*envp == NULL)
 		err_found_exit();
 	abs_path = ft_strjoin(*envp + 7, TMP_FILE_NAME);
